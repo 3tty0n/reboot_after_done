@@ -3,7 +3,7 @@
 done=/home/yusuke/src/reboot_after_done/rebench_done
 count=/home/yusuke/src/reboot_after_done/rebench_count
 
-max_invocation=10
+max_invocation=30
 
 bm_path=/home/yusuke/src/PySOM
 
@@ -24,7 +24,8 @@ do_command() {
     if [ ! -f $f ] || [ $(head -n 1 $count) -lt $max_invocation ]; then
         echo "Do command..." && sleep 0.1
         cd $bm_path || exit 1
-        ./rebench -in 1 -c runbench.conf
+        # ./rebench -c runbench.conf s:experiment
+        ./rebench -in 1 -c runbench.conf s:macro-steady s:micro-steady
         cat $count > $done
         reboot
     else
@@ -34,4 +35,3 @@ do_command() {
 }
 
 do_command
-
